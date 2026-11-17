@@ -1,0 +1,306 @@
+/* =================================================================
+   Bean There Café — a MOBILE-FIRST layout built with FLEXBOX.
+
+   Read this file top to bottom:
+     PART 1  Base styles  → apply to EVERY screen (phone layout)
+     PART 2  min-width: 768px  → tablet ADDITIONS
+     PART 3  min-width: 1024px → desktop ADDITIONS
+
+   Rule of thumb: if you find yourself writing max-width,
+   you're probably undoing something — rethink the base styles.
+   ================================================================= */
+
+/* =========================== PART 1: BASE (PHONE) =========================== */
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  color: #2b1d14;
+  background: #fffaf4;
+  line-height: 1.5;
+}
+
+h1, h2, h3 { margin: 0 0 0.5rem; line-height: 1.2; }
+p { margin: 0 0 0.75rem; }
+a { color: inherit; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+/* Breakpoint badge — content changes in each media query below */
+body::after {
+  content: "📱 Base (phone) styles";
+  position: fixed;
+  bottom: 8px;
+  right: 8px;
+  padding: 4px 10px;
+  border-radius: 99px;
+  background: #4f46e5;
+  color: #fff;
+  font: 600 12px/1.4 system-ui, sans-serif;
+  z-index: 100;
+}
+
+/* ---------- Header ---------- */
+.header {
+  display: flex;
+  flex-wrap: wrap;                /* lets the open nav drop to its own line */
+  justify-content: space-between; /* logo far left, button far right */
+  align-items: center;            /* vertically centered */
+  padding: 0.75rem 1rem;
+  background: #2b1d14;
+  color: #fff;
+}
+
+.logo { font-weight: 800; font-size: 1.2rem; text-decoration: none; }
+
+.menu-toggle {
+  display: flex;               /* flex to center the icon inside the button */
+  justify-content: center;
+  align-items: center;
+  width: 44px;
+  height: 44px;                /* 44px = minimum comfortable tap size */
+  background: transparent;
+  border: 1px solid #ffffff55;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.bars,
+.bars::before,
+.bars::after {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: #fff;
+  position: relative;
+}
+.bars::before,
+.bars::after { content: ""; position: absolute; }
+.bars::before { top: -6px; }
+.bars::after  { top: 6px; }
+
+/* On phones the nav is hidden until the menu button opens it */
+.nav {
+  display: none;
+  flex-direction: column;  /* links stacked vertically */
+  flex-basis: 100%;        /* take a full line inside the wrapping header */
+  gap: 0.25rem;
+  padding-top: 0.75rem;
+}
+.nav.open { display: flex; }
+
+.nav a {
+  padding: 0.6rem 0.25rem;
+  text-decoration: none;
+  border-bottom: 1px solid #ffffff22;
+}
+.nav-cta { color: #fbbf24; font-weight: 700; }
+
+/* ---------- Hero ---------- */
+.hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;  /* main axis is vertical here → vertical centering */
+  align-items: center;      /* cross axis is horizontal → horizontal centering */
+  text-align: center;
+  min-height: 60vh;
+  padding: 2rem 1rem;
+  background: linear-gradient(160deg, #6b3e26, #c07a45);
+  color: #fff;
+}
+.hero h1 { font-size: 2rem; }
+
+.hero-buttons {
+  display: flex;
+  flex-direction: column;   /* full-width stacked buttons are easy to tap */
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 320px;
+  margin-top: 1rem;
+}
+
+.btn {
+  display: block;
+  padding: 0.8rem 1.2rem;
+  border-radius: 8px;
+  background: #fbbf24;
+  color: #2b1d14;
+  font-weight: 700;
+  text-decoration: none;
+}
+.btn-outline { background: transparent; color: #fff; border: 2px solid #fff; }
+
+/* ---------- Features ---------- */
+.features {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 2rem 1rem;
+}
+.feature {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1rem;
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #f0e2d3;
+}
+.icon { font-size: 2rem; }
+
+/* ---------- Main + sidebar ---------- */
+.layout {
+  display: flex;
+  flex-direction: column;   /* main on top, sidebar below */
+  gap: 1.5rem;
+  padding: 0 1rem 2rem;
+}
+
+/* ---------- Cards: responsive grid WITHOUT media queries ---------- */
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.card {
+  flex: 1 1 220px;          /* grow | shrink | basis — fits as many 220px+ cards as possible */
+  display: flex;
+  flex-direction: column;   /* stack image + body */
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #f0e2d3;
+}
+.card-img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 110px;
+  font-size: 3rem;
+  background: hsl(var(--hue) 70% 85%);
+}
+.card-body {
+  flex: 1;                  /* fill remaining card height… */
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+.card-footer {
+  margin-top: auto;         /* …so this sticks to the bottom: cards line up! */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.price { font-weight: 800; font-size: 1.1rem; }
+.card button {
+  padding: 0.5rem 1rem;
+  min-height: 44px;
+  border: 0;
+  border-radius: 8px;
+  background: #2b1d14;
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+}
+
+/* ---------- Sidebar ---------- */
+.sidebar {
+  padding: 1rem;
+  background: #fef3c7;
+  border-radius: 12px;
+}
+.hours { list-style: none; margin: 0; padding: 0; }
+.hours li {
+  display: flex;
+  justify-content: space-between;  /* day on the left, time on the right */
+  padding: 0.4rem 0;
+  border-bottom: 1px dashed #d6b98a;
+}
+
+/* ---------- Footer ---------- */
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.5rem 1rem 3rem;
+  background: #2b1d14;
+  color: #e7d6c4;
+  font-size: 0.9rem;
+}
+.footer p { margin: 0; }
+.footer-links { display: flex; gap: 1rem; }
+
+
+/* ======================== PART 2: TABLET (768px+) ======================== */
+@media (min-width: 768px) {
+  body::after { content: "📟 Tablet — min-width: 768px"; background: #db2777; }
+
+  /* Hide the hamburger, always show the nav as a ROW */
+  .menu-toggle { display: none; }
+
+  .nav,
+  .nav.open {
+    display: flex;
+    flex-direction: row;
+    flex-basis: auto;    /* back to natural width so it sits next to the logo */
+    gap: 1.5rem;
+    padding-top: 0;
+  }
+  .nav a { border-bottom: 0; padding: 0.25rem 0; }
+
+  .header { padding: 1rem 2rem; }
+
+  .hero h1 { font-size: 3rem; }
+
+  /* Buttons side by side now that there's room */
+  .hero-buttons {
+    flex-direction: row;
+    justify-content: center;
+    max-width: none;
+  }
+
+  /* Features become a row of three equal columns */
+  .features {
+    flex-direction: row;
+    padding: 3rem 2rem;
+  }
+  .feature { flex: 1; }   /* each feature takes an equal share */
+
+  .layout { padding: 0 2rem 3rem; }
+
+  /* Footer: text left, links right */
+  .footer {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 1.5rem 2rem 3rem;
+  }
+}
+
+
+/* ======================= PART 3: DESKTOP (1024px+) ======================= */
+@media (min-width: 1024px) {
+  body::after { content: "🖥️ Desktop — min-width: 1024px"; background: #059669; }
+
+  /* Sidebar moves to the LEFT using order — HTML stays the same */
+  .layout {
+    flex-direction: row;
+    align-items: flex-start;   /* sidebar doesn't stretch to main's height */
+    max-width: 1200px;
+    margin-inline: auto;
+  }
+  .sidebar {
+    order: -1;          /* comes before .main visually */
+    flex: 0 0 240px;    /* don't grow, don't shrink, exactly 240px */
+    position: sticky;
+    top: 1rem;
+  }
+  .main { flex: 1; }    /* main takes all the remaining space */
+
+  .features { max-width: 1200px; margin-inline: auto; }
+}

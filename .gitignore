@@ -1,0 +1,38 @@
+# ---- Secrets (keep the .example templates) ----
+.env
+.env.*
+!.env.example
+
+# ---- Node / TypeScript ----
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ---- Java / Maven ----
+target/
+!.mvn/wrapper/maven-wrapper.jar
+*.class
+*.log
+hs_err_pid*
+
+# ---- IDEs ----
+.idea/
+*.iml
+.vscode/*
+!.vscode/settings.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# ---- Claude Code (personal, not shared) ----
+.claude/settings.local.json
+CLAUDE.local.md
+
+# ---- OS ----
+.DS_Store
+Thumbs.db
+desktop.ini

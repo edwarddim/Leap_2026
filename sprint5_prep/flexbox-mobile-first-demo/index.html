@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <!--
+    LESSON NOTE: This meta tag is REQUIRED for mobile-first design.
+    Without it, phones pretend to be ~980px wide and shrink the page,
+    so your small-screen styles never get a chance to apply.
+  -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flexbox &amp; Mobile-First Lab</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="logo" href="#top">Flex<span>Lab</span></a>
+      <nav class="site-nav" aria-label="Lesson sections">
+        <a href="#mobile-first">1. Mobile First</a>
+        <a href="#playground">2. Playground</a>
+        <a href="#preview">3. Responsive Preview</a>
+        <a href="#challenges">4. Challenges</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- ============================================================
+         SECTION 1: WHAT IS MOBILE FIRST?
+         ============================================================ -->
+    <section id="mobile-first" class="section wrap">
+      <h1>Flexbox &amp; Mobile-First Development</h1>
+      <p class="lead">
+        Write the styles for the <strong>smallest screen first</strong>, then use
+        <code>min-width</code> media queries to <em>add</em> layout as the screen grows.
+        Flexbox is the tool that makes those layouts easy.
+      </p>
+
+      <div class="compare">
+        <article class="card">
+          <h3 class="bad">Desktop first (max-width)</h3>
+          <pre><code>.nav { display: flex; }
+
+/* then UNDO it for phones */
+@media (max-width: 767px) {
+  .nav { flex-direction: column; }
+}</code></pre>
+          <p>Phones download desktop styles, then override them. You spend your time undoing work.</p>
+        </article>
+
+        <article class="card">
+          <h3 class="good">Mobile first (min-width)</h3>
+          <pre><code>/* base = phone: stacked */
+.nav { display: flex;
+       flex-direction: column; }
+
+/* ADD a row when there's room */
+@media (min-width: 768px) {
+  .nav { flex-direction: row; }
+}</code></pre>
+          <p>Base styles are simple. Each breakpoint only adds what the bigger screen needs.</p>
+        </article>
+      </div>
+
+      <div class="card key-ideas">
+        <h3>Key ideas</h3>
+        <ul>
+          <li><strong>Flex container</strong> = the parent with <code>display: flex</code>. Its children become <strong>flex items</strong>.</li>
+          <li><strong>Main axis</strong> follows <code>flex-direction</code> (row → horizontal, column → vertical). <code>justify-content</code> aligns along it.</li>
+          <li><strong>Cross axis</strong> runs perpendicular. <code>align-items</code> aligns along it.</li>
+          <li><code>flex-wrap: wrap</code> lets items drop to a new line instead of squishing — the secret to card grids that reflow.</li>
+          <li><code>flex: 1 1 250px</code> = grow, shrink, start at 250px. Great for responsive columns without media queries.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION 2: FLEXBOX PLAYGROUND
+         ============================================================ -->
+    <section id="playground" class="section wrap">
+      <h2>2. Flexbox Playground</h2>
+      <p>Change the container properties, then <strong>click an item</strong> to edit its own flex properties. The CSS updates live.</p>
+
+      <div class="playground">
+        <form class="controls card" id="container-controls" aria-label="Container properties">
+          <h3>Container <code>.container</code></h3>
+
+          <label>flex-direction
+            <select name="flexDirection">
+              <option>row</option>
+              <option>row-reverse</option>
+              <option>column</option>
+              <option>column-reverse</option>
+            </select>
+          </label>
+
+          <label>flex-wrap
+            <select name="flexWrap">
+              <option>nowrap</option>
+              <option>wrap</option>
+              <option>wrap-reverse</option>
+            </select>
+          </label>
+
+          <label>justify-content <small>(main axis)</small>
+            <select name="justifyContent">
+              <option>flex-start</option>
+              <option>flex-end</option>
+              <option>center</option>
+              <option>space-between</option>
+              <option>space-around</option>
+              <option>space-evenly</option>
+            </select>
+          </label>
+
+          <label>align-items <small>(cross axis)</small>
+            <select name="alignItems">
+              <option>stretch</option>
+              <option>flex-start</option>
+              <option>flex-end</option>
+              <option>center</option>
+              <option>baseline</option>
+            </select>
+          </label>
+
+          <label>align-content <small>(needs wrap + extra space)</small>
+            <select name="alignContent">
+              <option>normal</option>
+              <option>flex-start</option>
+              <option>flex-end</option>
+              <option>center</option>
+              <option>space-between</option>
+              <option>space-around</option>
+              <option>stretch</option>
+            </select>
+          </label>
+
+          <label>gap: <output id="gap-out">10px</output>
+            <input type="range" name="gap" min="0" max="40" value="10">
+          </label>
+
+          <div class="btn-row">
+            <button type="button" id="add-item">+ Item</button>
+            <button type="button" id="remove-item">− Item</button>
+            <button type="button" id="reset" class="ghost">Reset</button>
+          </div>
+        </form>
+
+        <div class="stage-wrap">
+          <div class="axis-labels" id="axis-labels">
+            <span class="main">Main axis →</span>
+            <span class="cross">Cross axis ↓</span>
+          </div>
+          <div class="stage" id="flex-container" aria-live="polite"></div>
+        </div>
+
+        <form class="controls card" id="item-controls" aria-label="Selected item properties">
+          <h3>Item <code id="item-name">(click an item)</code></h3>
+          <fieldset id="item-fields" disabled>
+            <label>flex-grow
+              <input type="number" name="flexGrow" min="0" max="10" value="0">
+            </label>
+            <label>flex-shrink
+              <input type="number" name="flexShrink" min="0" max="10" value="1">
+            </label>
+            <label>flex-basis
+              <select name="flexBasis">
+                <option>auto</option>
+                <option>0</option>
+                <option>50px</option>
+                <option>100px</option>
+                <option>150px</option>
+                <option>200px</option>
+                <option>50%</option>
+              </select>
+            </label>
+            <label>order
+              <input type="number" name="order" min="-5" max="10" value="0">
+            </label>
+            <label>align-self
+              <select name="alignSelf">
+                <option>auto</option>
+                <option>flex-start</option>
+                <option>flex-end</option>
+                <option>center</option>
+                <option>stretch</option>
+                <option>baseline</option>
+              </select>
+            </label>
+          </fieldset>
+        </form>
+
+        <div class="code-out card">
+          <div class="code-head">
+            <h3>Generated CSS</h3>
+            <button type="button" id="copy-css" class="ghost small">Copy</button>
+          </div>
+          <pre><code id="css-output"></code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION 3: RESPONSIVE PREVIEW
+         ============================================================ -->
+    <section id="preview" class="section wrap">
+      <h2>3. Responsive Preview</h2>
+      <p>
+        This is a real mobile-first page (<code>example/layout.html</code>) loaded in a frame.
+        Change the frame width and watch the media queries kick in. The badge in the corner
+        shows which breakpoint is active. Open <code>example/layout.css</code> side-by-side
+        while you do this.
+      </p>
+
+      <div class="device-bar">
+        <div class="btn-row" role="group" aria-label="Device presets">
+          <button type="button" data-width="320">Small phone 320</button>
+          <button type="button" data-width="390">Phone 390</button>
+          <button type="button" data-width="768">Tablet 768</button>
+          <button type="button" data-width="1024">Laptop 1024</button>
+          <button type="button" data-width="1280">Desktop 1280</button>
+        </div>
+        <label class="width-slider">Width: <output id="frame-width-out">390px</output>
+          <input type="range" id="frame-width" min="300" max="1400" value="390">
+        </label>
+      </div>
+
+      <div class="frame-outer" id="frame-outer">
+        <iframe id="preview-frame" src="example/layout.html" title="Mobile-first example layout" style="width: 390px"></iframe>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION 4: CHALLENGES
+         ============================================================ -->
+    <section id="challenges" class="section wrap">
+      <h2>4. Challenges</h2>
+      <p>Try each one in the playground or in your own file before opening the solution.</p>
+
+      <div class="challenge-grid">
+        <details class="card challenge">
+          <summary><span class="tag">Easy</span> Perfectly center one box</summary>
+          <p>Use the playground with 1 item. Center it both horizontally and vertically.</p>
+          <pre><code>.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}</code></pre>
+        </details>
+
+        <details class="card challenge">
+          <summary><span class="tag">Easy</span> Logo left, links right</summary>
+          <p>A header with a logo and a nav. Push them to opposite ends.</p>
+          <pre><code>.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}</code></pre>
+        </details>
+
+        <details class="card challenge">
+          <summary><span class="tag">Medium</span> Make item 3 fill the leftover space</summary>
+          <p>With 3 items in a row, only the last one should stretch.</p>
+          <pre><code>.item-3 { flex-grow: 1; }</code></pre>
+        </details>
+
+        <details class="card challenge">
+          <summary><span class="tag">Medium</span> Stacked on phones, row on tablets</summary>
+          <p>Write it mobile first — no <code>max-width</code> allowed!</p>
+          <pre><code>.features {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+@media (min-width: 768px) {
+  .features { flex-direction: row; }
+}</code></pre>
+        </details>
+
+        <details class="card challenge">
+          <summary><span class="tag">Hard</span> Card grid with zero media queries</summary>
+          <p>Cards should be 1 per row on phones, 2–4 per row on bigger screens, automatically.</p>
+          <pre><code>.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.card {
+  flex: 1 1 250px; /* grow, shrink, min-ish width */
+}</code></pre>
+        </details>
+
+        <details class="card challenge">
+          <summary><span class="tag">Hard</span> Move the sidebar on desktop</summary>
+          <p>On phones the sidebar comes <em>after</em> main content. On desktop, show it on the left — without changing the HTML.</p>
+          <pre><code>.layout { display: flex; flex-direction: column; }
+@media (min-width: 1024px) {
+  .layout { flex-direction: row; }
+  .sidebar { order: -1; flex: 0 0 250px; }
+  .main { flex: 1; }
+}</code></pre>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>Tip: open DevTools (F12) → Toggle device toolbar (Ctrl+Shift+M) to test real devices.</p>
+    </div>
+  </footer>
+
+  <script src="js/playground.js"></script>
+</body>
+</html>

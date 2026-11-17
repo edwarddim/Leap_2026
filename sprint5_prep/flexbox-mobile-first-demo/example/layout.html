@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bean There Café — Mobile-First Example</title>
+  <link rel="stylesheet" href="layout.css">
+</head>
+<body>
+
+  <!-- HEADER: logo + menu button on phones, logo + full nav on tablets+ -->
+  <header class="header">
+    <a href="#" class="logo">☕ Bean There</a>
+
+    <button class="menu-toggle" aria-expanded="false" aria-controls="main-nav">
+      <span class="sr-only">Toggle menu</span>
+      <span class="bars" aria-hidden="true"></span>
+    </button>
+
+    <nav class="nav" id="main-nav">
+      <a href="#">Menu</a>
+      <a href="#">Locations</a>
+      <a href="#">About</a>
+      <a href="#" class="nav-cta">Order</a>
+    </nav>
+  </header>
+
+  <!-- HERO: flexbox centers the content both ways -->
+  <section class="hero">
+    <h1>Coffee worth the walk.</h1>
+    <p>Small-batch roasts, made to order.</p>
+    <div class="hero-buttons">
+      <a href="#" class="btn">Order ahead</a>
+      <a href="#" class="btn btn-outline">See menu</a>
+    </div>
+  </section>
+
+  <!-- FEATURES: stacked on phones, a row of three on tablets+ -->
+  <section class="features">
+    <div class="feature">
+      <span class="icon">🌱</span>
+      <h3>Ethically sourced</h3>
+      <p>Direct trade with farms we visit.</p>
+    </div>
+    <div class="feature">
+      <span class="icon">🔥</span>
+      <h3>Roasted weekly</h3>
+      <p>Never older than seven days.</p>
+    </div>
+    <div class="feature">
+      <span class="icon">📱</span>
+      <h3>Skip the line</h3>
+      <p>Order on your phone, grab and go.</p>
+    </div>
+  </section>
+
+  <!--
+    LAYOUT: notice <main> comes BEFORE <aside> in the HTML.
+    That's the right reading order on phones. On desktop we use
+    the flexbox `order` property to move the sidebar to the left.
+  -->
+  <div class="layout">
+    <main class="main">
+      <h2>Today's Menu</h2>
+
+      <!-- CARDS: flex-wrap + flex-basis = responsive grid, no media query -->
+      <div class="cards">
+        <article class="card">
+          <div class="card-img" style="--hue: 25">☕</div>
+          <div class="card-body">
+            <h3>House Drip</h3>
+            <p>Bright, nutty, and smooth.</p>
+            <div class="card-footer"><span class="price">$3</span><button>Add</button></div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-img" style="--hue: 35">🥛</div>
+          <div class="card-body">
+            <h3>Oat Latte</h3>
+            <p>Double shot with creamy oat milk. Our most popular drink.</p>
+            <div class="card-footer"><span class="price">$5</span><button>Add</button></div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-img" style="--hue: 200">🧊</div>
+          <div class="card-body">
+            <h3>Cold Brew</h3>
+            <p>Steeped 18 hours.</p>
+            <div class="card-footer"><span class="price">$4</span><button>Add</button></div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-img" style="--hue: 330">🥐</div>
+          <div class="card-body">
+            <h3>Croissant</h3>
+            <p>Baked every morning.</p>
+            <div class="card-footer"><span class="price">$3.50</span><button>Add</button></div>
+          </div>
+        </article>
+      </div>
+    </main>
+
+    <aside class="sidebar">
+      <h2>Hours</h2>
+      <ul class="hours">
+        <li><span>Mon–Fri</span><span>6am – 6pm</span></li>
+        <li><span>Saturday</span><span>7am – 5pm</span></li>
+        <li><span>Sunday</span><span>8am – 3pm</span></li>
+      </ul>
+    </aside>
+  </div>
+
+  <footer class="footer">
+    <p>© 2026 Bean There Café</p>
+    <nav class="footer-links">
+      <a href="#">Instagram</a>
+      <a href="#">Careers</a>
+      <a href="#">Contact</a>
+    </nav>
+  </footer>
+
+  <script>
+    // Tiny bit of JS: open/close the mobile menu.
+    // We toggle a class and let CSS decide how it looks.
+    const toggle = document.querySelector('.menu-toggle');
+    const nav = document.querySelector('.nav');
+
+    toggle.addEventListener('click', () => {
+      const isOpen = nav.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', isOpen);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,403 @@
+/* =================================================================
+   FlexLab — styles for the lesson page itself.
+
+   This file is ALSO written mobile first, so students can read it
+   as a second example:
+     1. Base styles (no media query)  → phones
+     2. @media (min-width: 768px)     → tablets and up
+     3. @media (min-width: 1024px)    → laptops and up
+   ================================================================= */
+
+/* ---------- Design tokens (CSS custom properties) ---------- */
+:root {
+  --bg: #f6f7fb;
+  --surface: #ffffff;
+  --text: #1d2233;
+  --muted: #5b6275;
+  --border: #dde1ea;
+  --accent: #4f46e5;
+  --accent-soft: #eef0ff;
+  --good: #15803d;
+  --bad: #b91c1c;
+  --code-bg: #1e2233;
+  --code-text: #e6e9f5;
+  --radius: 10px;
+  --shadow: 0 1px 3px rgba(20, 25, 50, 0.08);
+
+  /* Colors for the playground items */
+  --i1: #6366f1; --i2: #ec4899; --i3: #f59e0b; --i4: #10b981;
+  --i5: #06b6d4; --i6: #8b5cf6; --i7: #ef4444; --i8: #84cc16;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #12141c;
+    --surface: #1b1e29;
+    --text: #e8eaf2;
+    --muted: #a0a6b8;
+    --border: #2d3142;
+    --accent: #818cf8;
+    --accent-soft: #252a45;
+    --good: #4ade80;
+    --bad: #f87171;
+    --code-bg: #0d0f16;
+  }
+}
+
+/* ---------- Reset-ish basics ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box; /* padding no longer adds to width — essential for layouts */
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.55;
+  background: var(--bg);
+  color: var(--text);
+}
+
+h1, h2, h3 { line-height: 1.2; margin: 0 0 0.6em; }
+h1 { font-size: 1.9rem; }      /* small on phones... */
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.05rem; }
+p  { margin: 0 0 1em; }
+
+code {
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.9em;
+  background: var(--accent-soft);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}
+
+pre {
+  margin: 0 0 1em;
+  padding: 1rem;
+  background: var(--code-bg);
+  color: var(--code-text);
+  border-radius: 8px;
+  overflow-x: auto; /* long code scrolls instead of breaking the layout */
+  font-size: 0.85rem;
+}
+pre code { background: none; padding: 0; color: inherit; }
+
+a { color: var(--accent); }
+
+/* Container that keeps content readable and gives a 16px gutter on phones */
+.wrap {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+
+.section { padding-block: 2.5rem; }
+
+.lead { font-size: 1.1rem; color: var(--muted); }
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.1rem;
+  box-shadow: var(--shadow);
+}
+
+.good { color: var(--good); }
+.bad  { color: var(--bad); }
+
+/* ---------- Header ---------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+/* FLEXBOX: phones get a stacked header (column) */
+.header-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-block: 0.75rem;
+}
+
+.logo {
+  font-weight: 800;
+  font-size: 1.25rem;
+  text-decoration: none;
+  color: var(--text);
+}
+.logo span { color: var(--accent); }
+
+/* FLEXBOX: nav links wrap onto new lines instead of overflowing */
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  font-size: 0.9rem;
+}
+.site-nav a { text-decoration: none; font-weight: 500; }
+.site-nav a:hover { text-decoration: underline; }
+
+/* ---------- Section 1 ---------- */
+/* FLEXBOX: compare cards stacked on phones */
+.compare {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.compare .card { flex: 1; min-width: 0; } /* min-width: 0 lets <pre> scroll inside a flex item */
+
+.key-ideas ul { margin: 0; padding-left: 1.2rem; }
+.key-ideas li { margin-bottom: 0.4rem; }
+
+/* ---------- Buttons & form controls ---------- */
+button {
+  font: inherit;
+  font-size: 0.9rem;
+  padding: 0.5rem 0.85rem;
+  border-radius: 8px;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+}
+button:hover { filter: brightness(1.1); }
+button.ghost { background: transparent; color: var(--accent); }
+button.small { padding: 0.25rem 0.6rem; font-size: 0.8rem; }
+button.active { outline: 3px solid var(--accent-soft); background: var(--text); border-color: var(--text); color: var(--bg); }
+
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.controls label {
+  display: flex;
+  flex-direction: column;  /* label text above the input */
+  gap: 0.25rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+.controls small { font-weight: 400; color: var(--muted); }
+
+select,
+input[type="number"] {
+  font: inherit;
+  font-weight: 400;
+  padding: 0.45rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 44px; /* MOBILE FIRST: comfortable tap target */
+}
+input[type="range"] { accent-color: var(--accent); width: 100%; }
+
+fieldset { border: 0; margin: 0; padding: 0; }
+fieldset:disabled { opacity: 0.45; }
+
+/* ---------- Section 2: Playground ---------- */
+/* FLEXBOX: on phones every panel is full width, stacked */
+.playground {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.stage-wrap { position: relative; min-width: 0; }
+
+.axis-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.35rem;
+}
+.axis-labels .main  { color: var(--accent); }
+.axis-labels .cross { color: var(--i2); }
+
+/* The live flex container. JS sets display:flex + the chosen props inline. */
+.stage {
+  min-height: 320px;
+  padding: 10px;
+  border: 2px dashed var(--accent);
+  border-radius: var(--radius);
+  background:
+    repeating-linear-gradient(45deg, transparent 0 10px, var(--accent-soft) 10px 11px),
+    var(--surface);
+  overflow: auto;
+}
+
+.flex-item {
+  min-width: 48px;
+  padding: 0.6rem 0.9rem;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: 800;
+  font-size: 1.1rem;
+  cursor: pointer;
+  user-select: none;
+  border: 3px solid transparent;
+  transition: transform 0.1s;
+  text-align: center;
+}
+.flex-item:hover { transform: scale(1.04); }
+.flex-item.selected { border-color: var(--text); box-shadow: 0 0 0 3px var(--surface) inset; }
+.flex-item small { display: block; font-size: 0.65rem; font-weight: 500; opacity: 0.9; }
+
+/* Different sizes so align-items / baseline differences are visible */
+.flex-item:nth-child(3n + 2) { padding-block: 1.4rem; font-size: 1.5rem; }
+.flex-item:nth-child(3n + 3) { padding-block: 0.3rem; }
+
+.code-out pre { margin: 0; min-height: 8rem; }
+.code-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.6rem;
+}
+.code-head h3 { margin: 0; }
+
+/* ---------- Section 3: Responsive preview ---------- */
+.device-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+.device-bar button { font-size: 0.8rem; }
+.width-slider {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.frame-outer {
+  overflow-x: auto;   /* frame wider than the screen scrolls inside this box */
+  padding: 1rem;
+  border-radius: var(--radius);
+  background: var(--border);
+}
+#preview-frame {
+  display: block;
+  margin-inline: auto;
+  height: 640px;
+  max-width: none;
+  border: 0;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
+  transition: width 0.25s ease;
+}
+
+/* ---------- Section 4: Challenges ---------- */
+.challenge-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+/* FLEXBOX: no media query needed — each card is at least ~280px, and
+   grows to fill the row. 1 column on phones, 2–3 on bigger screens. */
+.challenge {
+  flex: 1 1 280px;
+  min-width: 0;
+}
+.challenge summary {
+  cursor: pointer;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  list-style: none;
+}
+.challenge summary::-webkit-details-marker { display: none; }
+.challenge summary::after { content: "＋"; margin-left: auto; color: var(--accent); }
+.challenge[open] summary::after { content: "－"; }
+.challenge[open] summary { margin-bottom: 0.75rem; }
+.challenge pre { margin: 0; }
+
+.tag {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  padding: 0.15rem 0.45rem;
+  border-radius: 99px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  flex-shrink: 0; /* don't let the tag get squished */
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding-block: 1.5rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* =================================================================
+   BREAKPOINT 1: TABLET — 768px and up
+   We only ADD or CHANGE what needs to be different.
+   ================================================================= */
+@media (min-width: 768px) {
+  h1 { font-size: 2.6rem; }
+  h2 { font-size: 1.9rem; }
+
+  .wrap { padding-inline: 2rem; }
+
+  /* Header becomes a row: logo left, nav right */
+  .header-inner {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  /* Compare cards side by side */
+  .compare { flex-direction: row; }
+
+  /* Playground: two columns — controls panels share a row */
+  .playground {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  #container-controls,
+  #item-controls { flex: 1 1 0; }
+  .stage-wrap,
+  .code-out     { flex: 1 1 100%; } /* full-width rows */
+  .stage-wrap   { order: -1; }      /* show the stage first on tablets */
+
+  .device-bar {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+  .width-slider { flex: 0 1 280px; }
+}
+
+/* =================================================================
+   BREAKPOINT 2: LAPTOP — 1024px and up
+   ================================================================= */
+@media (min-width: 1024px) {
+  /* Three columns: controls | stage | item controls */
+  .playground { flex-wrap: wrap; }
+  #container-controls { flex: 0 0 230px; order: 1; }
+  .stage-wrap         { flex: 1 1 0;     order: 2; }
+  #item-controls      { flex: 0 0 210px; order: 3; }
+  .code-out           { flex: 1 1 100%;  order: 4; }
+
+  .stage { min-height: 420px; }
+}
