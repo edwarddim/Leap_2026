@@ -14,6 +14,16 @@ function getUser(userId, callback) {
   }, 500);
 }
 
+function getUserAsync(userId) {
+  return new Promise((resolve, reject) => {
+    getUser(userId, (err, user) => {
+      if (err) reject(err);
+      else resolve(user);
+    });
+  });
+}
+
+
 // Newer APIs: these already return promises
 function getOrder(orderId) {
   return delay(500).then(() => ({
