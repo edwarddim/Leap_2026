@@ -20,6 +20,8 @@ public class GoogleBooksClient {
     private final RestClient restClient;
     private final GoogleBooksProperties properties;
 
+    // BUILD OUT THE REQUEST FACTORY, SET YOU API KEYS AND YOUR BASE URL
+    // BASE URL AND API KEYS ARE DEFINED IN YOUR application.properties
     public GoogleBooksClient(GoogleBooksProperties properties) {
         this.properties = properties;
 
