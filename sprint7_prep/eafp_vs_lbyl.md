@@ -1,7 +1,5 @@
 # EAFP vs LBYL in Python
 
-A companion to the *Python Fundamentals* guide (section 4.5). This covers the two error-handling styles in depth, with examples showing when each one is the better choice.
-
 ## Table of Contents
 
 1. [The Two Styles](#1-the-two-styles)

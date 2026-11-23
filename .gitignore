@@ -31,6 +31,18 @@ target/
 *.log
 hs_err_pid*
 
+# ---- Python / uv / Jupyter ----
+# Keep pyproject.toml, uv.lock and .python-version tracked.
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
 # ---- IDEs ----
 .idea/
 *.iml
